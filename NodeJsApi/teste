@@ -1,0 +1,33 @@
+{
+    item : {
+        productId : 1,
+        material : 2,
+        finish : 1,
+        width : 150,
+        height : 200,
+        depth : 50,
+        children : [
+            {
+                productId : 6,
+                material : 1,
+                finish : 10,
+                width : 60,
+                height : 60,
+                depth : 50,
+                children : [
+                    {
+                        blah blah blah
+                    }
+                ]
+            },
+            {
+                productId : 9,
+                material : 10,
+                finish : 69,
+                width : 20,
+                height : 40,
+                depth : 50,
+            }
+        ]
+    }
+}
