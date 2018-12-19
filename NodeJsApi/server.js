@@ -8,7 +8,8 @@ const bodyParser = require('body-parser');
 const app = express();
 //app.use(cors)
 
-let dev_db_url = "mongodb://username:password@url";
+
+let dev_db_url="mongodb://mongodb:mongodb123@ds026018.mlab.com:26018/lapr5gestenc";
 let mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
