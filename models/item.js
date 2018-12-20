@@ -4,11 +4,8 @@ const schema = mongoose.Schema;
 let ItemSchema = new mongoose.Schema ({
     productId : Number,
     name: String,
-    material : String,
-    finish : Number,
-    width : Number,
-    height : Number,
-    depth : Number,
+    price: Number,
+    dimension : {type : mongoose.Schema.Types.ObjectId, ref: 'Dimension'},
     children : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item'}]
 });
 
