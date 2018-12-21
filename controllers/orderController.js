@@ -1,4 +1,4 @@
-const Service = require('../services/itemService');
+const Service = require('../services/orderService');
 
 
 const ORDER_NOT_FOUND = 'Order not found';

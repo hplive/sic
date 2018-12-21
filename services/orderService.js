@@ -9,15 +9,14 @@ const ItemRepository = require('../repository/itemRepository');
 const OrderRepository = require('../repository/orderRepository');
 
 
-const ItemRestrictionDto = require('../Dtos/ItemRestrictionDto');
 const ItemDto = require('../Dtos/ItemDto');
 const OrderDto = require('../Dtos/OrderDto');
 const OrderAndItemDto = require('../Dtos/OrderAndItemsDto');
 const ItemOfItemDto = require('../Dtos/ItemsOfItemDto');
+const { State } = require('../models/order');
 
-
-const uri = 'https://andrearmarios.azurewebsites.net/api/product/';
-const restriction_uri = 'https://andrearmarios.azurewebsites.net/api/product/check';
+const uri = 'https://nucleocs.azurewebsites.net/api/product/'; //to complete
+const restriction_uri = 'https://nucleocs.azurewebsites.net/api'; //to complete
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 exports.deleteOrder = async function(id) {
@@ -93,21 +92,22 @@ exports.getItemsOrder = async function(id1,id2) {
 };
 
 exports.createOrder = async function(body) {
+    var customer=body.customer;
+    var address=body.address;
     var parentItem = body.item;
 
     var parentProduct = await isProductValid(parentItem);
-
+/*
     if (parentProduct == false) {
         return false;
     }
-
+*/
     if (parentProduct == null) {
         return null;
     }
 
-    parentItem["productId"] = parentProduct.id
-    
-    var p = createNewProduct(parentItem);
+   // parentItem["productId"] = parentProduct.id;
+    var p = createNewProduct(parentProduct);
 
     //parent product
     let stack = [parentItem];
@@ -119,29 +119,17 @@ exports.createOrder = async function(body) {
 
         if (parent.hasOwnProperty('children') && parent.children.length > 0) {
 
-            var listMandatory = await mandatoryItems(parent.productId);
-
-            if(listMandatory == null) {
-                console.log('mand');
-                return null;
-            }
 
             for (let child of parent.children) {
 
-                if (child.width > parent.width || child.height > parent.height || child.depth > parent.depth) {
-                    return 'child';
+                if (child.dimension.width > parent.dimension.width || child.dimension.height > parent.dimension.height
+                     || child.dimension.depth > parent.dimension.depth) {
+                    return 'DontFit';
                 }
 
-                const area = child.width * child.height;
-
-                if(parentSchema.area - area < 0) {
-                    return 'DontFit';
-                } 
-
-                parentSchema.area = parentSchema.area - area;
 
                 const cP = await isProductValid(child);
-                
+
                 if (cP === null) {
                     return null;
                 }
@@ -151,35 +139,18 @@ exports.createOrder = async function(body) {
                 }
 
                 let c = createNewProduct(child);
-                
+
                 child["productId"] = cP.id
-
-                let check = await validateRestriction(parent, child);
-                if (check == false) {
-                    return 'bad';
-                }   
-
-                const index = listMandatory.indexOf(child.productId);
-
-                if(index != -1) {
-                    listMandatory.splice(index,1);
-                }
 
                 parentSchema.children = [...parentSchema.children, c];
 
                 schemas.push(c);
                 stack.push(child);
             }
-
-            if(listMandatory.length > 0) {
-                return 'mandatory';
-            }
         }
     }
 
-    let order = new Order({
-        item: p
-    });
+    let order = createNewOrder(customer, address, items);
 
     saveItems(p);
 
@@ -187,77 +158,56 @@ exports.createOrder = async function(body) {
 
     return new OrderDto(order._id, order.item);
 };
+/*
+validateData = function (product, item) {
 
-validateData = function (product, data) {
-
-    if(product.materialsAndFinishes.includes(data.material) === false) {
+    if(product.materialsAndFinishes.includes(item.material) === false) {
         return false;
     }
 
     if (product.heightPossibleValues.isDiscrete) {
-        if (product.heightPossibleValues.values.includes(data.height) === false) {
+        if (product.heightPossibleValues.values.includes(item.height) === false) {
             return false;
         }
     } else {
-        if (!(product.heightPossibleValues.values[0] <= data.height <= product.heightPossibleValues.values[1])) {
+        if (!(product.heightPossibleValues.values[0] <= item.height <= product.heightPossibleValues.values[1])) {
             return false;
         }
     }
 
     if (product.widthPossibleValues.isDiscrete) {
-        if (product.widthPossibleValues.values.includes(data.width) === false) {
+        if (product.widthPossibleValues.values.includes(item.width) === false) {
             return false;
         }
     } else {
-        if (!(product.widthPossibleValues.values[0] <= data.width <= product.widthPossibleValues.values[1])) {
+        if (!(product.widthPossibleValues.values[0] <= item.width <= product.widthPossibleValues.values[1])) {
             return false;
         }
     }
 
     if (product.depthPossibleValues.isDiscrete) {
-        if (product.depthPossibleValues.values.includes(data.depth) === false) {
+        if (product.depthPossibleValues.values.includes(item.depth) === false) {
             return false;
         }
     } else {
-        if (!(product.depthPossibleValues.values[0] <= data.depth <= product.depthPossibleValues.values[1])) {
+        if (!(product.depthPossibleValues.values[0] <= item.depth <= product.depthPossibleValues.values[1])) {
             return false;
         }
     }
     return true;
 };
-
-validateRestriction = async function (parentDto, childDto) {
-    var p = new ItemRestrictionDto(parentDto.width, parentDto.height, parentDto.depth, parentDto.material, parentDto.productId);
-    var c = new ItemRestrictionDto(childDto.width, childDto.height, childDto.depth, childDto.material, childDto.productId);
-
-    var answer = await axios.post(restriction_uri, {
-        parent: p,
-        child: c
-    }).then(response => {
-        console.log(response)
-        return true;
-    }).catch(error => {
-        console.log(error)
-        return null;
-    });
-
-    if (answer === null) {
-        return false;
-    }
-
-    return answer;
-};
+*/
 
 isProductValid = async function (product) {
 
-    var productUri = uri + "?name=" + product.productName;
+    var productUri = uri + product.productId;
 
     var newProduct = await axios.get(productUri).then(response => {
         return response.data;
     }).catch(error => {
         return null;
     });
-
+/*
     if (newProduct == null) {
         return null;
     }
@@ -265,24 +215,10 @@ isProductValid = async function (product) {
     if (!validateData(newProduct, product)) {
         return false;
     }
-
+*/
     return newProduct;
 };
 
-mandatoryItems = async function(pId) {
-    var mandatoryuri = uri + "mandatory/" + pId;
-    var mandatoryList = await axios.get(mandatoryuri).then(response => {
-        return response.data;
-    }).catch(error => {
-        return null;
-    });
-
-    if(mandatoryList == null) {
-        return null;
-    }
-
-    return mandatoryList;
-};
 
 
 findItem = async function(parentId, id) {
@@ -345,14 +281,17 @@ getItem = async function (id, hasParent, toDelete) {
 };
 
 createItem = function (item) {
-    return new ItemDto(item._id,
+    return new ItemDto(
+        item.id,
+        item.name,
+        item.price,
+        item.category,
         item.children,
         item.productId,
         item.material,
         item.finish,
-        item.width,
-        item.height,
-        item.depth);
+        item.dimension
+        );
 };
 
 createNewProduct = function (product) {
@@ -361,19 +300,34 @@ createNewProduct = function (product) {
         {
             productId: product.productId,
             material: product.material,
+            finish: finish,
+            category: product.category,
             name: product.name,
-            finish: product.finish,
-            width: product.width,
-            height: product.height,
-            depth: product.depth,
-            area : product.width * product.height,
-            children: []
+            price: product.price,
+            dimension: product.dimension,
+            children: product.children
         }
     );
 
     return p;
 };
 
+createNewOrder = function (receivedCustomer, receivedAddress, receivedItems){
+    total=0;
+    for(let it of receivedItems){
+        total+=it.price;
+    }
+    let order= new Order(
+        {
+            customer=receivedCustomer,
+            address=receivedAddress,
+            totalPrice=total,
+            items=receivedItems,
+            state=State.SUBMETIDA
+        }
+    )
+    return order;
+};
 saveItems = function (item) {
     let stack = [item];
 
