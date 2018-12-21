@@ -1,13 +1,13 @@
 const Service = require('../services/itemService');
 
 
-const ORDER_NOT_FOUND = 'Encomenda não encontrada';
-const ITEM_NOT_FOUND = 'Item não encontrado';
-const PRODUCT_NOT_FOUND = 'Produto não encontrado';
-const ITEM_DIM_WRONG = 'Dimensões inválidas';
-const RESTRICTION_VIOLATION = 'Item viola restricoes';
-const MANDATORY_ERROR = 'Não estão incluidos todo so produtos obrigatórios';
-const AREA_NOT_ENOUGH = 'Área insuficiente';
+const ORDER_NOT_FOUND = 'Order not found';
+const ITEM_NOT_FOUND = 'Item not found';
+const PRODUCT_NOT_FOUND = 'Product not found';
+const ITEM_DIM_WRONG = 'Wrong items\'s dimension';
+const RESTRICTION_VIOLATION = 'Violated restition';
+const MANDATORY_ERROR = 'Every mandatory products are not included';
+const AREA_NOT_ENOUGH = 'Low volume';
 
 
 exports.get_order = async (req, res) => {

@@ -4,9 +4,9 @@ const ItemDto = require('../Dtos/ItemDto');
 
 const ItemRepository = require('../repository/itemRepository');
 
-const ITEM_NOT_FOUND = 'Item não encontrado';
-const INTERNAL_SERVER_ERROR = 'Erro no servidor';
-const BAD_REQUEST = 'Erro ao processar o pedido';
+const ITEM_NOT_FOUND = 'Item did not find';
+const INTERNAL_SERVER_ERROR = 'Server error';
+const BAD_REQUEST = 'Request error';
 
 
 exports.GetProductById = function (req, res) {
@@ -20,7 +20,8 @@ exports.GetProductById = function (req, res) {
                 res.status(404).send(ITEM_NOT_FOUND);
             } else {
 
-                res.send(new ItemDto(item._id,
+                res.send(new ItemDto(
+                    item.id,
                     item.children,
                     item.productId,
                     item.material,
