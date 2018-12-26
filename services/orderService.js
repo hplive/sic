@@ -16,7 +16,6 @@ const ItemOfItemDto = require('../Dtos/ItemsOfItemDto');
 const { State } = require('../models/order');
 
 const uri = 'https://nucleocs.azurewebsites.net/api/product/'; //to complete
-const restriction_uri = 'https://nucleocs.azurewebsites.net/api'; //to complete
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 exports.deleteOrder = async function(id) {
@@ -95,7 +94,7 @@ exports.createOrder = async function(body) {
     var customer=body.customer;
     var address=body.address;
     var parentItem = body.item;
-
+    console.log(parentItem)
     var parentProduct = await isProductValid(parentItem);
 /*
     if (parentProduct == false) {
@@ -319,11 +318,11 @@ createNewOrder = function (receivedCustomer, receivedAddress, receivedItems){
     }
     let order= new Order(
         {
-            customer=receivedCustomer,
-            address=receivedAddress,
-            totalPrice=total,
-            items=receivedItems,
-            state=State.SUBMETIDA
+            customer: receivedCustomer,
+            address: receivedAddress,
+            totalPrice: total,
+            items: receivedItems,
+            state: State.SUBMETIDA
         }
     )
     return order;

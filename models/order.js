@@ -10,6 +10,7 @@ const State = Object.freeze(
         PRONTA_A_EXPEDIR : 'Ready',
         EXPEDIDA : 'Dispatched',
         ENTREGUE : 'Delivered',
+        RECECIONADA : 'Received'
     }
 );
 

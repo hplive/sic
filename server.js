@@ -10,13 +10,11 @@ const app = express();
 
 
 let dev_db_url="mongodb://mongodb:mongodb123@ds026018.mlab.com:26018/lapr5gestenc";
-let mongoDB = process.env.MONGODB_URI || dev_db_url;
-mongoose.connect(mongoDB);
+mongoose.connect(dev_db_url, { useNewUrlParser: true })
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-const product = require('./routes/product'); //Import product routes
 const order = require('./routes/order');
 const item = require('./routes/item');
 
@@ -27,7 +25,6 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-app.use('/products', product);
 app.use('/order', order);
 app.use('/item', item);
 
