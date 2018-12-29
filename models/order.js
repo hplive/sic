@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 const State = Object.freeze(
     {
@@ -14,11 +15,11 @@ const State = Object.freeze(
     }
 );
 
-let OrderSchema = new mongoose.Schema ({
-    customer : { type: mongoose.Schema.Types.ObjectId, ref: "Customer"},
-    address : { type: mongoose.Schema.Types.ObjectId, ref: "Address"},
+var OrderSchema = new Schema ({
+    customer : { type: Schema.Types.ObjectId, ref: 'Customer'},
+    address : { type: Schema.Types.ObjectId, ref: 'Address'},
     state : { type: String, enum: Object.values(State),},
-    items : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item'}],
+    items: { type: ['../models/Item.js'] },
     totalPrice: Number
 });
 Object.assign(OrderSchema.statics, {State});

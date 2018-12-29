@@ -44,17 +44,8 @@ exports.getOrder = async function (id) {
         if (order == null) {
             return false;
         } else {
-            let i;
-            let x;
-            for(i=0;i<order.items.length; i++){
-                let item=order.items[i];
-               await ItemRepository.GetById(item._id)
-                .then(function (result){
-                    x=result
-                })
-            }
             console.log(order)
-            return new OrderDto(order._id, order.address, order.item);
+            return new OrderDto(order._id, order.customer, order.address, order.items, order.totalPrice, order.state);
         }
     }
 }
@@ -168,7 +159,7 @@ exports.createOrder = async function (body) {
     let order = createNewOrder(customer, address, items);
     saveItems(items);
     OrderRepository.SaveOrder(order);
-    return new OrderDto(order._id, order.address, order.items);
+    return new OrderDto(order._id, order.customer, order.address, order.item, order.totalPrice, order.state);
 };
 
 isProductValid = async function (product) {

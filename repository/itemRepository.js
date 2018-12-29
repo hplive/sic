@@ -11,7 +11,7 @@ exports.GetById = function(id) {
 
 exports.SaveItem = function(item) {
     item.save(function(err) {
-        if(err) return next(err);
+        if(err) return err;
     });
 }
 

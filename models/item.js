@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
-const schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
-let ItemSchema = new mongoose.Schema ({
+let ItemSchema = new Schema ({
+    _id: Schema.Types.ObjectId,
     productId : Number,
     name: String,
     price: Number,
@@ -12,6 +13,6 @@ let ItemSchema = new mongoose.Schema ({
     height : Number,
     depth : Number,
     children : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item'}]
-});
+},{_id:false});
 
 module.exports = mongoose.model('Item', ItemSchema);
