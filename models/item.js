@@ -8,7 +8,9 @@ let ItemSchema = new mongoose.Schema ({
     category: String,
     material : String,
     finish : String,
-    dimension : {type : mongoose.Schema.Types.ObjectId, ref: 'Dimension'},
+    width : Number,
+    height : Number,
+    depth : Number,
     children : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item'}]
 });
 

@@ -22,13 +22,16 @@ exports.GetProductById = function (req, res) {
 
                 res.send(new ItemDto(
                     item.id,
+                    item.name,
+                    item.category,
                     item.children,
                     item.productId,
                     item.material,
                     item.finish,
                     item.width,
                     item.height,
-                    item.depth));
+                    item.depth,
+                    item.price));
             }
 
         }, err => {

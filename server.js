@@ -9,7 +9,7 @@ const app = express();
 //app.use(cors)
 
 
-let dev_db_url="mongodb://mongodb:mongodb123@ds026018.mlab.com:26018/lapr5gestenc";
+let dev_db_url="mongodb://mongouser:mongo123@ds026658.mlab.com:26658/mngcloset";
 mongoose.connect(dev_db_url, { useNewUrlParser: true })
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;

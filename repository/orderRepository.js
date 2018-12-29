@@ -10,9 +10,14 @@ exports.GetById = function(id) {
 }
 
 exports.SaveOrder = function(order) {
-    order.save(function(err) {
-        if(err) return next(err);
-    });
+    order.save()
+    .then(doc => {
+      return doc
+    })
+    .catch(err => {
+        console.log(err.message)
+      return null;
+    })
 };
 
 exports.DeleteOrder = function(id) {

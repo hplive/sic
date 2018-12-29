@@ -53,7 +53,6 @@ exports.get_items_order = async function (req, res) {
 };
 
 exports.create_order = async (req, res) => {
-    console.log('xDDD')
     var success = await Service.createOrder(req.body);
 
     if (success == false) {

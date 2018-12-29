@@ -1,7 +1,8 @@
 class OrderDto  {
-    constructor(orderId, itemId) {
+    constructor(orderId, address, items) {
         this.OrderId = orderId;
-        this.ItemId = itemId;
+        this.address=address;
+        this.Items = items;
     }
 };
 
