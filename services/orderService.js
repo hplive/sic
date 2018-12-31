@@ -44,8 +44,7 @@ exports.getOrder = async function (id) {
         if (order == null) {
             return false;
         } else {
-            console.log(order)
-            return new OrderDto(order._id, order.customer, order.address, order.items, order.totalPrice, order.state);
+            return new OrderDto(order._id, order.customer.name, order.address, order.items, order.totalPrice, order.state);
         }
     }
 }
@@ -109,12 +108,10 @@ exports.createOrder = async function (body) {
         if (parentItem == null) {
             return null;
         }
-
-        // parentItem["productId"] = parentProduct.id;
-        var p = createNewProduct(parentItem);
-
+        var currentItem=itemsList[i];
+        var p = createNewProduct(currentItem);
         //parent product
-        let stack = [parentItem];
+        let stack = [currentItem];
         let schemas = [p];
 
         while (stack.length > 0) {
@@ -127,11 +124,10 @@ exports.createOrder = async function (body) {
                 let childrenList=parent.children;
                 for (j=0; j<childrenList.length; j++) {
                     let child=childrenList[j];
-                    if (child.width > parent.width || child.height > parent.height
-                        || child.depth > parent.depth) {
+                    if (child.width >= parent.width || child.height >= parent.height
+                        || child.depth >= parent.depth) {
                         return 'DontFit';
                     }
-
 
                     const cP = await isProductValid(child);
 
@@ -147,8 +143,6 @@ exports.createOrder = async function (body) {
 
                     child["productId"] = cP.id
 
-                    parentSchema.children = [...parentSchema.children, c];
-
                     schemas.push(c);
                     stack.push(child);
                 }
@@ -159,7 +153,7 @@ exports.createOrder = async function (body) {
     let order = createNewOrder(customer, address, items);
     saveItems(items);
     OrderRepository.SaveOrder(order);
-    return new OrderDto(order._id, order.customer, order.address, order.item, order.totalPrice, order.state);
+    return new OrderDto(order._id, order.customer.name, order.address, order.item, order.totalPrice, order.state);
 };
 
 isProductValid = async function (product) {

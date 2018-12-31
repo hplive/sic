@@ -7,7 +7,7 @@ const PRODUCT_NOT_FOUND = 'Product not found';
 const ITEM_DIM_WRONG = 'Wrong items\'s dimension';
 const RESTRICTION_VIOLATION = 'Violated restition';
 const MANDATORY_ERROR = 'Every mandatory products are not included';
-const AREA_NOT_ENOUGH = 'Low volume';
+const AREA_NOT_ENOUGH = 'Some of the children does not fit in the parent item';
 
 
 exports.get_order = async (req, res) => {

@@ -12,7 +12,7 @@ let ItemSchema = new Schema ({
     width : Number,
     height : Number,
     depth : Number,
-    children : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item'}]
+    children : { type: ['../models/Item.js'] },
 },{_id:false});
 
 module.exports = mongoose.model('Item', ItemSchema);
