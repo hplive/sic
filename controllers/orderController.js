@@ -32,7 +32,6 @@ exports.delete_order = async function (req, res) {
 
 exports.get_order_items = async function (req, res) {
     var success = await Service.getOrderItems(req.params.id);
-
     if (!success) {
         res.status(404).send(ORDER_NOT_FOUND);
     } else {

@@ -53,17 +53,7 @@ exports.getOrderItems = async function (id) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return false;
     } else {
-        var order = await OrderRepository.GetById(id);
-
-        if (order == null) {
-            return false;
-        } else {
-            var list = await getItem(order.item, true, false);
-
-            var dto = new OrderAndItemDto(order._id, list);
-
-            return dto;
-        }
+        return await OrderRepository.GetItems(id);
     }
 };
 
@@ -93,22 +83,22 @@ exports.getItemsOrder = async function (id1, id2) {
 };
 
 exports.createOrder = async function (body) {
-    const received= getCustomer()
+    const received = getCustomer()
     var tmpCustomer;
-   await received.then(async function (data){
-       tmpCustomer=data
+    await received.then(async function (data) {
+        tmpCustomer = data
     });
-    let customer=createCustomer(tmpCustomer)
-    let address=createAddress(body.address)
+    let customer = createCustomer(tmpCustomer)
+    let address = createAddress(body.address)
     var itemsList = body.items;
     let i;
-    let items=[];
-    for (i=0; i<itemsList.length; i++) {
+    let items = [];
+    for (i = 0; i < itemsList.length; i++) {
         var parentItem = await isProductValid(itemsList[i]);
         if (parentItem == null) {
             return null;
         }
-        var currentItem=itemsList[i];
+        var currentItem = itemsList[i];
         var p = createNewProduct(currentItem);
         //parent product
         let stack = [currentItem];
@@ -121,9 +111,9 @@ exports.createOrder = async function (body) {
             if (parent.hasOwnProperty('children') && parent.children.length > 0) {
 
                 let j;
-                let childrenList=parent.children;
-                for (j=0; j<childrenList.length; j++) {
-                    let child=childrenList[j];
+                let childrenList = parent.children;
+                for (j = 0; j < childrenList.length; j++) {
+                    let child = childrenList[j];
                     if (child.width >= parent.width || child.height >= parent.height
                         || child.depth >= parent.depth) {
                         return 'DontFit';
@@ -180,7 +170,7 @@ isProductValid = async function (product) {
 };
 
 
-getCustomer =async function (){
+getCustomer = async function () {
     var customer = await axios.get(uri)
         .then(response => {
             return response.data;
@@ -275,23 +265,23 @@ createItem = function (item) {
     );
 };
 
-createCustomer = function (customer){
-    let address= createAddress(customer.address)
+createCustomer = function (customer) {
+    let address = createAddress(customer.address)
     let c = new Customer({
         name: customer.name,
-        email : customer.email,
-        phone : customer.phone,
-        address : address
+        email: customer.email,
+        phone: customer.phone,
+        address: address
     })
     return c;
 }
 
-createAddress = function (address){
-    let a= new Address({
-        street : address.streetName,
-        door : address.door,
-        postalCodeCity : address.postalCodeCity,
-        postalCodeStreet : address.postalCodeStreet
+createAddress = function (address) {
+    let a = new Address({
+        street: address.streetName,
+        door: address.door,
+        postalCodeCity: address.postalCodeCity,
+        postalCodeStreet: address.postalCodeStreet
     })
     return a;
 }
@@ -318,7 +308,7 @@ createNewProduct = function (product) {
 createNewOrder = function (receivedCustomer, receivedAddress, receivedItems) {
     total = 0;
     let i;
-    for (i=0; i<receivedItems.length; i++) {
+    for (i = 0; i < receivedItems.length; i++) {
         total += receivedItems[i].price;
 
     }
@@ -334,13 +324,13 @@ createNewOrder = function (receivedCustomer, receivedAddress, receivedItems) {
     return order;
 };
 saveItems = function (items) {
-   // let stack = [item];
+    // let stack = [item];
 
     let i;
-    for(i=0; i<items.length; i++){
+    for (i = 0; i < items.length; i++) {
         let item = items[i];
 
-        console.log('\n saving...\n '+item)
+        console.log('\n saving...\n ' + item)
 
         ItemRepository.SaveItem(item);
     }
