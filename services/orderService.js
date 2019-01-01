@@ -49,7 +49,7 @@ exports.getOrder = async function (id) {
     }
 }
 
-exports.getOrderItems = async function (id) {
+exports.getOrdersItems = async function (id) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return false;
     } else {
@@ -61,23 +61,19 @@ exports.getItemsOrder = async function (id1, id2) {
     if (!mongoose.Types.ObjectId.isValid(id1) || !mongoose.Types.ObjectId.isValid(id2)) {
         return false;
     } else {
-        var order = await OrderRepository.GetById(id);
-
-        if (order == null) {
+        var order= await OrderRepository.GetById(id1);
+        if(order==null){
             return false;
-        } else {
-            var item = await ItemRepository.GetById(id2);
-
-            if (item === null) {
-                return null;
-            } else {
-                if (! await findItem(item._id, req.params.itemId)) {
-                    return null;
+        }else{
+            let i;
+            let items=order.items;
+            for(i=0; i<items.length; i++){
+                var item=items[i];
+                if(item['_id']==id2){
+                    return item;
                 }
-                var list = await getItem(item._id, false, false);
-
-                return (new ItemOfItemDto(item._id, list));
             }
+            return null;
         }
     }
 };
@@ -93,13 +89,16 @@ exports.createOrder = async function (body) {
     var itemsList = body.items;
     let i;
     let items = [];
+    let totelPrice=0;
     for (i = 0; i < itemsList.length; i++) {
         var parentItem = await isProductValid(itemsList[i]);
         if (parentItem == null) {
             return null;
         }
         var currentItem = itemsList[i];
+        currentItem.price=parentItem.price;
         var p = createNewProduct(currentItem);
+        totelPrice+=p.price;
         //parent product
         let stack = [currentItem];
         let schemas = [p];
@@ -128,11 +127,9 @@ exports.createOrder = async function (body) {
                     if (cP == false) {
                         return false;
                     }
-
+                    totelPrice+=cP.price;
                     let c = createNewProduct(child);
-
-                    child["productId"] = cP.id
-
+                    child.price=cP.price;
                     schemas.push(c);
                     stack.push(child);
                 }
@@ -140,7 +137,7 @@ exports.createOrder = async function (body) {
         }
         items.push(p);
     }
-    let order = createNewOrder(customer, address, items);
+    let order = createNewOrder(customer, address, items, totelPrice);
     saveItems(items);
     OrderRepository.SaveOrder(order);
     return new OrderDto(order._id, order.customer.name, order.address, order.item, order.totalPrice, order.state);
@@ -305,18 +302,13 @@ createNewProduct = function (product) {
     return p;
 };
 
-createNewOrder = function (receivedCustomer, receivedAddress, receivedItems) {
-    total = 0;
-    let i;
-    for (i = 0; i < receivedItems.length; i++) {
-        total += receivedItems[i].price;
+createNewOrder = function (receivedCustomer, receivedAddress, receivedItems, receivedPrice) {
 
-    }
     let order = new Order(
         {
             customer: receivedCustomer,
             address: receivedAddress,
-            totalPrice: total,
+            totalPrice: receivedPrice,
             items: receivedItems,
             state: State.SUBMETIDA
         }

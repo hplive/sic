@@ -30,8 +30,8 @@ exports.delete_order = async function (req, res) {
     }
 };
 
-exports.get_order_items = async function (req, res) {
-    var success = await Service.getOrderItems(req.params.id);
+exports.get_orders_items = async function (req, res) {
+    var success = await Service.getOrdersItems(req.params.id);
     if (!success) {
         res.status(404).send(ORDER_NOT_FOUND);
     } else {
@@ -40,7 +40,7 @@ exports.get_order_items = async function (req, res) {
 };
 
 exports.get_items_order = async function (req, res) {
-    var success = await Service.getOrderItems(req.params.id, req.params.itemId);
+    var success = await Service.getItemsOrder(req.params.id, req.params.itemId);
 
     if (success == false) {
         res.status(404).send(ORDER_NOT_FOUND);
