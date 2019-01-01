@@ -24,14 +24,8 @@ exports.deleteOrder = async function (id) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return false;
     } else {
-        var order = await OrderRepository.DeleteOrder(id);
-
-        if (order === null) {
-            return false;
-        } else {
-            await getItem(order.item, false, true);
-            return true;
-        }
+        await OrderRepository.DeleteOrder(id);
+        return true;
     }
 };
 
