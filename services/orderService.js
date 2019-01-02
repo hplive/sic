@@ -7,14 +7,10 @@ const Order = require('../models/order');
 const Customer = require('../models/customer')
 const Address = require('../models/address')
 
-const ItemRepository = require('../repository/itemRepository');
 const OrderRepository = require('../repository/orderRepository');
 
 
-const ItemDto = require('../Dtos/ItemDto');
 const OrderDto = require('../Dtos/OrderDto');
-const OrderAndItemDto = require('../Dtos/OrderAndItemsDto');
-const ItemOfItemDto = require('../Dtos/ItemsOfItemDto');
 const { State } = require('../models/order');
 
 const uri = 'https://localhost:5001/api/order'; //to complete
@@ -78,7 +74,7 @@ exports.createOrder = async function (body) {
     await received.then(async function (data) {
         tmpCustomer = data
     });
-    let customer = createCustomer(tmpCustomer)
+    let customer = Customer.createCustomer(tmpCustomer);
     let address = createAddress(body.address)
     var itemsList = body.items;
     let i;
@@ -98,7 +94,6 @@ exports.createOrder = async function (body) {
         let schemas = [p];
 
         while (stack.length > 0) {
-            var parentSchema = schemas.pop();
             var parent = stack.pop();
 
             if (parent.hasOwnProperty('children') && parent.children.length > 0) {
@@ -107,8 +102,8 @@ exports.createOrder = async function (body) {
                 let childrenList = parent.children;
                 for (j = 0; j < childrenList.length; j++) {
                     let child = childrenList[j];
-                    if (child.width >= parent.width || child.height >= parent.height
-                        || child.depth >= parent.depth) {
+                    var doesFit=productFit(parent, child)
+                    if (!doesFit) {
                         return 'DontFit';
                     }
 
@@ -137,6 +132,14 @@ exports.createOrder = async function (body) {
     return new OrderDto(order._id, order.customer.name, order.address, order.item, order.totalPrice, order.state);
 };
 
+exports.productFit = function (parent, child) {
+    if (child.width >= parent.width || child.height >= parent.height
+        || child.depth >= parent.depth)
+        {
+            return false;
+        }
+    return true;
+};
 isProductValid = async function (product) {
 
     // var productUri = uri + product.productId;
@@ -240,7 +243,7 @@ getItem = async function (id, hasParent, toDelete) {
     return list;
 };
 
-createItem = function (item) {
+exports.createItem = function (item) {
     return new ItemDto(
         item.id,
         item.name,
@@ -256,18 +259,17 @@ createItem = function (item) {
     );
 };
 
-createCustomer = function (customer) {
+exports.createCustomer = function (customer) {
     let address = createAddress(customer.address)
-    let c = new Customer({
+    let c = new CustomerSchema({
         name: customer.name,
         email: customer.email,
         phone: customer.phone,
         address: address
     })
     return c;
-}
-
-createAddress = function (address) {
+};
+exports.createAddress = function (address) {
     let a = new Address({
         street: address.streetName,
         door: address.door,
@@ -276,7 +278,7 @@ createAddress = function (address) {
     })
     return a;
 }
-createNewProduct = function (product) {
+exports.createNewProduct = function (product) {
 
     let p = new Item(
         {
@@ -296,7 +298,7 @@ createNewProduct = function (product) {
     return p;
 };
 
-createNewOrder = function (receivedCustomer, receivedAddress, receivedItems, receivedPrice) {
+exports.createNewOrder = function (receivedCustomer, receivedAddress, receivedItems, receivedPrice) {
 
     let order = new Order(
         {

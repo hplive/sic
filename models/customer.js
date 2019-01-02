@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const schema = mongoose.Schema;
 
 let CustomerSchema = new mongoose.Schema ({
     name: String,

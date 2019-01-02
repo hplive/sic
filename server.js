@@ -16,7 +16,6 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const order = require('./routes/order');
-const item = require('./routes/item');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,7 +25,6 @@ app.use(function (req, res, next) {
     next();
 });
 app.use('/order', order);
-app.use('/item', item);
 
 let port = process.env.PORT || 8080;
 
