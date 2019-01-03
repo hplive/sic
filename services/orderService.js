@@ -68,18 +68,19 @@ exports.getItemsOrder = async function (id1, id2) {
     }
 };
 
-exports.createOrder = async function (body) {
+exports.createOrder = async function (body)
+{
     const received = getCustomer()
     var tmpCustomer;
     await received.then(async function (data) {
         tmpCustomer = data
     });
-    let customer = Customer.createCustomer(tmpCustomer);
+    let customer = createCustomer(tmpCustomer)
     let address = createAddress(body.address)
     var itemsList = body.items;
     let i;
     let items = [];
-    let totelPrice=0;
+    let totalPrice=0;
     for (i = 0; i < itemsList.length; i++) {
         var parentItem = await isProductValid(itemsList[i]);
         if (parentItem == null) {
@@ -88,7 +89,7 @@ exports.createOrder = async function (body) {
         var currentItem = itemsList[i];
         currentItem.price=parentItem.price;
         var p = createNewProduct(currentItem);
-        totelPrice+=p.price;
+        totalPrice+=p.price;
         //parent product
         let stack = [currentItem];
         let schemas = [p];
@@ -116,7 +117,7 @@ exports.createOrder = async function (body) {
                     if (cP == false) {
                         return false;
                     }
-                    totelPrice+=cP.price;
+                    totalPrice+=cP.price;
                     let c = createNewProduct(child);
                     child.price=cP.price;
                     schemas.push(c);
@@ -126,13 +127,12 @@ exports.createOrder = async function (body) {
         }
         items.push(p);
     }
-    let order = createNewOrder(customer, address, items, totelPrice);
-    saveItems(items);
+    let order = createNewOrder(customer, address, items, totalPrice);
     OrderRepository.SaveOrder(order);
     return new OrderDto(order._id, order.customer.name, order.address, order.item, order.totalPrice, order.state);
 };
 
-exports.productFit = function (parent, child) {
+productFit = function (parent, child) {
     if (child.width >= parent.width || child.height >= parent.height
         || child.depth >= parent.depth)
         {
@@ -259,17 +259,17 @@ exports.createItem = function (item) {
     );
 };
 
-exports.createCustomer = function (customer) {
+createCustomer = function (customer) {
     let address = createAddress(customer.address)
-    let c = new CustomerSchema({
+    let c = new Customer({
         name: customer.name,
         email: customer.email,
         phone: customer.phone,
         address: address
-    })
+    });
     return c;
 };
-exports.createAddress = function (address) {
+createAddress = function (address) {
     let a = new Address({
         street: address.streetName,
         door: address.door,
@@ -278,7 +278,7 @@ exports.createAddress = function (address) {
     })
     return a;
 }
-exports.createNewProduct = function (product) {
+createNewProduct = function (product) {
 
     let p = new Item(
         {
@@ -298,7 +298,7 @@ exports.createNewProduct = function (product) {
     return p;
 };
 
-exports.createNewOrder = function (receivedCustomer, receivedAddress, receivedItems, receivedPrice) {
+createNewOrder = function (receivedCustomer, receivedAddress, receivedItems, receivedPrice) {
 
     let order = new Order(
         {
@@ -310,18 +310,5 @@ exports.createNewOrder = function (receivedCustomer, receivedAddress, receivedIt
         }
     )
     return order;
-};
-saveItems = function (items) {
-    // let stack = [item];
-
-    let i;
-    for (i = 0; i < items.length; i++) {
-        let item = items[i];
-
-        console.log('\n saving...\n ' + item)
-
-        ItemRepository.SaveItem(item);
-    }
-
 };
 
