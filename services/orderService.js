@@ -13,8 +13,8 @@ const OrderRepository = require('../repository/orderRepository');
 const OrderDto = require('../Dtos/OrderDto');
 const { State } = require('../models/order');
 
-//const uri = 'https://nucleocs.azurewebsites.net/api/order';
-const uri = 'https://localhost:5001/api/order';
+const uri = 'https://nucleocs.azurewebsites.net/api/order';
+const accountUri='https://nucleocs.azurewebsites.net/api/Account'
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 exports.deleteOrder = async function (id) {
@@ -125,14 +125,15 @@ exports.set_state = async function (id) {
         return true;
     }
 };
-exports.createOrder = async function (body) {
-    const received = getCustomer()
+exports.createOrder = async function (body, user) {
+    const received = getCustomer(user)
     var tmpCustomer;
     await received.then(async function (data) {
         tmpCustomer = data
     });
     let customer = createCustomer(tmpCustomer)
     let address = createAddress(body.address)
+
     var itemsList = body.items;
     let i;
     let items = [];
@@ -217,8 +218,9 @@ isProductValid = async function (product) {
 };
 
 
-getCustomer = async function () {
-    var customer = await axios.get(uri)
+getCustomer = async function (user) {
+    var newUri=accountUri+'/'+user;
+    var customer = await axios.get(newUri)
         .then(response => {
             return response.data;
         }).catch(error => {

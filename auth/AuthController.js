@@ -11,12 +11,11 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../config');
 
-const uri = 'https://localhost:5001/api/Account';
+const uri = 'https://nucleocs.azurewebsites.net/api/Account';
 
 router.post('/register',async function(req, res) {
-      var result = await axios.post(uri, token)
+       await axios.post(uri, req.body)
       .then(response => {
-          return response.data;
       }).catch(error => {
           if (error.response) {
               console.log(error.response.data);
@@ -30,36 +29,48 @@ router.post('/register',async function(req, res) {
           console.log(error.config);
           return null;
       });
-      res.status(200).send({ auth: true, token: result });
+      res.status(200).send();
     });
 
-  router.get('/me', function(req, res) {
-    var token = req.headers['x-access-token'];
-    if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
-
-    jwt.verify(token, config.secret, function(err, decoded) {
-      if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-
-      User.findById(decoded.id, function (err, user) {
-        if (err) return res.status(500).send("There was a problem finding the user.");
-        if (!user) return res.status(404).send("No user found.");
-
-        res.status(200).send(user);
-      });
+  router.get('/:name',async function(req, res) {
+    var loginUri=uri+'/'+req.params.name;
+    var result=await axios.get(loginUri)
+    .then(response => {
+        return response.data;
+    }).catch(error => {
+        if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+        } else if (error.request) {
+            console.log(error.request);
+        } else {
+            console.log('Error', error.message);
+        }
+        console.log(error.config);
+        return null;
     });
+    res.status(200).send(result);
   });
 
-  router.post('/login', function(req, res) {
-    User.findOne({ email: req.body.email }, function (err, user) {
-      if (err) return res.status(500).send('Error on the server.');
-      if (!user) return res.status(404).send('No user found.');
-      var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
-      if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
-      var token = jwt.sign({ id: user._id }, config.secret, {
-        expiresIn: 86400 // expires in 24 hours
-      });
-      res.status(200).send({ auth: true, token: token });
+  router.post('/login',async function(req, res) {
+      var loginUri=uri+'/'+'login';
+    await axios.post(loginUri, req.body)
+    .then(response => {
+    }).catch(error => {
+        if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+        } else if (error.request) {
+            console.log(error.request);
+        } else {
+            console.log('Error', error.message);
+        }
+        console.log(error.config);
+        return null;
     });
+    res.status(200).send();
   });
 
   router.get('/logout', function(req, res) {

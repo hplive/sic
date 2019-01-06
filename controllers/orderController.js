@@ -61,7 +61,7 @@ exports.get_items_order = async function (req, res) {
 };
 
 exports.create_order = async (req, res) => {
-    var success = await Service.createOrder(req.body);
+    var success = await Service.createOrder(req.body, req.params.user);
 
     if (success == false) {
         res.status(400).send(ITEM_DIM_WRONG);
