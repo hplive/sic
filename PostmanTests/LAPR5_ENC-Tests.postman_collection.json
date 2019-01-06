@@ -10,6 +10,27 @@
 			"item": [
 				{
 					"name": "create order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "39aa2d36-75bb-494c-95ed-010c185f350b",
+								"exec": [
+									"pm.test(\"Successful POST request Category\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.globals.set(\"orderId\", jsonData.OrderId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -22,15 +43,15 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"itens\":[],\n\t\"preco\":100\n}"
+							"raw": "{\r\n\t\"address\": {\r\n\t\t\"street\": \"1st Street\",\r\n\t\t\"door\": \"1\",\r\n\t\t\"postalCodeCity\": 4100,\r\n\t\t\"postalCodeStreet\": 1\r\n\t},\r\n\t\"state\": null,\r\n\t\"items\": [{\r\n\t\t\t\"productId\": 1,\r\n\t\t\t\"name\": \"VARAOCAMIS.OVAL.AL\",\r\n\t\t\t\"price\": 0.0,\r\n\t\t\t\"category\": \"Ferragens\",\r\n\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\"finishings\": \"Verniz\",\r\n\t\t\t\"width\": 3,\r\n\t\t\t\"height\": 0.03,\r\n\t\t\t\"depth\": 0.02,\r\n\t\t\t\"children\": [{\r\n\t\t\t\t\t\"productId\": 1,\r\n\t\t\t\t\t\"name\": \"VARAOCAMIS.OVAL.AL2\",\r\n\t\t\t\t\t\"price\": 0.0,\r\n\t\t\t\t\t\"category\": \"Ferragens\",\r\n\t\t\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\t\t\"finishings\": \"Verniz\",\r\n\t\t\t\t\t\"width\": 2,\r\n\t\t\t\t\t\"height\": 0.02,\r\n\t\t\t\t\t\"depth\": 0.01,\r\n\t\t\t\t\t\"children\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"productId\": 2,\r\n\t\t\t\t\t\"name\": \"VARAOCAMIS.OVAL.AL2\",\r\n\t\t\t\t\t\"price\": 0.0,\r\n\t\t\t\t\t\"category\": \"Ferragens\",\r\n\t\t\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\t\t\"finishings\": \"Verniz\",\r\n\t\t\t\t\t\"width\": 2,\r\n\t\t\t\t\t\"height\": 0.02,\r\n\t\t\t\t\t\"depth\": 0.01,\r\n\t\t\t\t\t\"children\": []\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"productId\": 2,\r\n\t\t\t\"name\": \"VARAOCAMIS.OVAL.ALXX\",\r\n\t\t\t\"price\": 0.0,\r\n\t\t\t\"category\": \"Ferragens\",\r\n\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\"finishings\": \"Verniz\",\r\n\t\t\t\"width\": 3,\r\n\t\t\t\"height\": 0.03,\r\n\t\t\t\"depth\": 0.02,\r\n\t\t\t\"children\": [{\r\n\t\t\t\t\"productId\": 2,\r\n\t\t\t\t\"name\": \"VARAOCAMIS.OVAL.AL2\",\r\n\t\t\t\t\"price\": 0.0,\r\n\t\t\t\t\"category\": \"Ferragens\",\r\n\t\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\t\"finishings\": \"Verniz\",\r\n\t\t\t\t\"width\": 2,\r\n\t\t\t\t\"height\": 0.02,\r\n\t\t\t\t\"depth\": 0.01,\r\n\t\t\t\t\"children\": []\r\n\t\t\t}]\r\n\t\t}\r\n\t],\r\n\t\"totalprice\": 0.0\r\n}"
 						},
 						"url": {
-							"raw": "{{url2}}api/encomenda?",
+							"raw": "{{urlenc}}order/",
 							"host": [
-								"{{url2}}api"
+								"{{urlenc}}order"
 							],
 							"path": [
-								"encomenda"
+								""
 							],
 							"query": [
 								{
@@ -46,6 +67,30 @@
 				},
 				{
 					"name": "get all orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "46a9dee7-a01f-453f-8eae-21a58f2a0259",
+								"exec": [
+									"pm.test(\"Return all orders\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5d0a5286-9f5f-43e8-92b8-42a7ad5849a0",
+								"exec": [
+									"setTimeout(function(){}, [2000]);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -54,12 +99,9 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url2}}api/encomenda",
+							"raw": "{{urlenc}}order",
 							"host": [
-								"{{url2}}api"
-							],
-							"path": [
-								"encomenda"
+								"{{urlenc}}order"
 							]
 						},
 						"description": "get todas as encomendas"
@@ -74,27 +116,10 @@
 							"script": {
 								"id": "ca3c5f1b-7af8-4aef-a16d-9d234954d1d5",
 								"exec": [
-									"//Verifica o sucesso do request",
-									"pm.test(\"Successful GET request code(200/201/202)\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
-									"});",
-									"",
-									"//Verifica se os campos existe na resposta com os seguintes valores",
-									"",
-									"/*",
-									"pm.test(\"Teste ao id anterior na bd na base de dados \", function () {",
+									"pm.test(\"Get order by ID\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    //Informação do acabamento",
-									"     pm.expect(jsonData.nome).to.eql(\"Polido\");",
-									"",
-									"});",
-									"",
-									"",
-									"//Verifica se os campos existe na resposta",
-									"tests[\"Successful GET requestBody\"] = responseBody.has(\"acabamentoId\") && responseBody.has(\"nome\") ",
-									"tests[\"Successful GET resquestBody\"]",
-									"*/",
-									""
+									"    pm.expect(jsonData.OrderId).to.eql(pm.globals.get(\"orderId\"));",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -108,13 +133,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url2}}api/encomenda/1",
+							"raw": "{{urlenc}}order/{{orderId}}",
 							"host": [
-								"{{url2}}api"
+								"{{urlenc}}order"
 							],
 							"path": [
-								"encomenda",
-								"1"
+								"{{orderId}}"
 							]
 						}
 					},
@@ -122,27 +146,41 @@
 				},
 				{
 					"name": "delete order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "68cf5b6b-9b1a-4b24-88c9-ded9fe43295d",
+								"exec": [
+									"pm.test(\"Status code is 200, delete ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
-						"method": "POST",
+						"method": "DELETE",
 						"header": [
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"itens\":[],\n\t\"preco\":100\n}"
+							"raw": ""
 						},
 						"url": {
-							"raw": "{{url2}}api/encomenda?",
+							"raw": "{{urlenc}}order/{{orderId}}",
 							"host": [
-								"{{url2}}api"
+								"{{urlenc}}order"
 							],
 							"path": [
-								"encomenda"
+								"{{orderId}}"
 							],
 							"query": [
 								{
