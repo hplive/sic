@@ -56,7 +56,7 @@ exports.get_items_order = async function (req, res) {
     } else if (success == null) {
         res.status(404).send(ITEM_NOT_FOUND);
     } else {
-        res.send(success);
+        res.status(202).send(success);
     }
 };
 
@@ -76,5 +76,15 @@ exports.create_order = async (req, res) => {
     }
     else {
         res.status(201).send(success);
+    }
+};
+
+exports.set_state =async (req, res) => {
+    var success = await Service.set_state(req.params.id);
+    if(success==false)
+    {
+        res.status(404).send(ORDER_NOT_FOUND);
+    }else{
+        res.status(202).send();
     }
 };

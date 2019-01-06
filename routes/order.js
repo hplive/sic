@@ -3,6 +3,7 @@ const router = express.Router();
 const OrderController = require('../controllers/orderController');
 
 router.post("/", OrderController.create_order);
+router.put("/:id", OrderController.set_state)
 router.get("/:id", OrderController.get_order);
 router.get("/", OrderController.get);
 router.get("/:id/items", OrderController.get_orders_items);

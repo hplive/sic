@@ -9,6 +9,14 @@ exports.GetById = function (id) {
     });
 }
 
+exports.set_state = function (id, order){
+    return new Promise((resolve, reject)=> {
+        Order.updateOne({_id:id} ,order, function (err, order){
+            if(err) reject(err);
+            resolve(order);
+        });
+    });
+};
 exports.GetAll = function (email) {
     return new Promise((resolve, reject) => {
         Order.find({

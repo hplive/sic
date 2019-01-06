@@ -26,15 +26,15 @@ exports.deleteOrder = async function (id) {
 };
 
 exports.get = async function () {
-        var customer=getCustomer()
-        await customer.then(async function (data) {
-            tmpCustomer = data
-        });
-        var list= await OrderRepository.GetAll(tmpCustomer.email);
-        if(list==null){
-            return false;
-        }
-        return list;
+    var customer = getCustomer()
+    await customer.then(async function (data) {
+        tmpCustomer = data
+    });
+    var list = await OrderRepository.GetAll(tmpCustomer.email);
+    if (list == null) {
+        return false;
+    }
+    return list;
 
 }
 exports.getOrder = async function (id) {
@@ -63,15 +63,15 @@ exports.getItemsOrder = async function (id1, id2) {
     if (!mongoose.Types.ObjectId.isValid(id1) || !mongoose.Types.ObjectId.isValid(id2)) {
         return false;
     } else {
-        var order= await OrderRepository.GetById(id1);
-        if(order==null){
+        var order = await OrderRepository.GetById(id1);
+        if (order == null) {
             return false;
-        }else{
+        } else {
             let i;
-            let items=order.items;
-            for(i=0; i<items.length; i++){
-                var item=items[i];
-                if(item['_id']==id2){
+            let items = order.items;
+            for (i = 0; i < items.length; i++) {
+                var item = items[i];
+                if (item['_id'] == id2) {
                     return item;
                 }
             }
@@ -80,8 +80,51 @@ exports.getItemsOrder = async function (id1, id2) {
     }
 };
 
-exports.createOrder = async function (body)
-{
+exports.set_state = async function (id) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return false;
+    } else {
+        var order = await OrderRepository.GetById(id);
+        if (order == null) {
+            return false;
+        }
+        var nextState;
+        var state = order.state
+        switch (state) {
+            case State.SUBMETIDA:
+                nextState = State.VALIDADA;
+                break;
+            case State.VALIDADA:
+                nextState = State.ASSINADA;
+                break;
+            case State.ASSINADA:
+                nextState = State.EM_PRODUÇÃO;
+                break;
+            case State.EM_PRODUÇÃO:
+                nextState = State.EM_EMBALAMENTO;
+                break;
+            case State.EM_EMBALAMENTO:
+                nextState = State.PRONTA_A_EXPEDIR;
+                break;
+            case State.PRONTA_A_EXPEDIR:
+                nextState = State.EXPEDIDA;
+                break;
+            case State.EXPEDIDA:
+                nextState = State.ENTREGUE;
+                break;
+            case State.ENTREGUE:
+                nextState = State.RECECIONADA;
+                break;
+            default:
+                nextState = State.REJEITADA
+                break;
+        }
+        order.state=nextState;
+        await OrderRepository.set_state(id, order);
+        return true;
+    }
+};
+exports.createOrder = async function (body) {
     const received = getCustomer()
     var tmpCustomer;
     await received.then(async function (data) {
@@ -92,16 +135,16 @@ exports.createOrder = async function (body)
     var itemsList = body.items;
     let i;
     let items = [];
-    let totalPrice=0;
+    let totalPrice = 0;
     for (i = 0; i < itemsList.length; i++) {
         var parentItem = await isProductValid(itemsList[i]);
         if (parentItem == null) {
             return null;
         }
         var currentItem = itemsList[i];
-        currentItem.price=parentItem.price;
+        currentItem.price = parentItem.price;
         var p = createNewProduct(currentItem);
-        totalPrice+=p.price;
+        totalPrice += p.price;
         //parent product
         let stack = [currentItem];
         let schemas = [p];
@@ -115,7 +158,7 @@ exports.createOrder = async function (body)
                 let childrenList = parent.children;
                 for (j = 0; j < childrenList.length; j++) {
                     let child = childrenList[j];
-                    var doesFit=productFit(parent, child)
+                    var doesFit = productFit(parent, child)
                     if (!doesFit) {
                         return 'DontFit';
                     }
@@ -129,9 +172,9 @@ exports.createOrder = async function (body)
                     if (cP == false) {
                         return false;
                     }
-                    totalPrice+=cP.price;
+                    totalPrice += cP.price;
                     let c = createNewProduct(child);
-                    child.price=cP.price;
+                    child.price = cP.price;
                     schemas.push(c);
                     stack.push(child);
                 }
@@ -146,10 +189,9 @@ exports.createOrder = async function (body)
 
 productFit = function (parent, child) {
     if (child.width >= parent.width || child.height >= parent.height
-        || child.depth >= parent.depth)
-        {
-            return false;
-        }
+        || child.depth >= parent.depth) {
+        return false;
+    }
     return true;
 };
 isProductValid = async function (product) {

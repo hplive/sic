@@ -5,13 +5,14 @@ const State = Object.freeze(
     {
         SUBMETIDA : 'Submitted',
         VALIDADA : 'Validated',
-        ASSINADA : 'Signed',
+        ASSINADA : 'Assigned',
         EM_PRODUÇÃO :'In production',
         EM_EMBALAMENTO : 'Packing',
         PRONTA_A_EXPEDIR : 'Ready',
         EXPEDIDA : 'Dispatched',
         ENTREGUE : 'Delivered',
-        RECECIONADA : 'Received'
+        RECECIONADA : 'Received',
+        REJEITADA : 'Rejected'
     }
 );
 
