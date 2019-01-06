@@ -13,7 +13,8 @@ const OrderRepository = require('../repository/orderRepository');
 const OrderDto = require('../Dtos/OrderDto');
 const { State } = require('../models/order');
 
-const uri = 'https://nucleocs.azurewebsites.net/api/order';
+//const uri = 'https://nucleocs.azurewebsites.net/api/order';
+const uri = 'https://localhost:5001/api/order';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 exports.deleteOrder = async function (id) {

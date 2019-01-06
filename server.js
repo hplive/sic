@@ -6,7 +6,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
-//app.use(cors)
 
 
 let dev_db_url="mongodb://mongouser:mongo123@ds026658.mlab.com:26658/mngcloset";
@@ -16,6 +15,7 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const order = require('./routes/order');
+const auth = require('./auth/AuthController')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,7 +25,7 @@ app.use(function (req, res, next) {
     next();
 });
 app.use('/order', order);
-
+app.use('/auth', auth);
 let port = process.env.PORT || 8080;
 
 app.listen(port, () => {
