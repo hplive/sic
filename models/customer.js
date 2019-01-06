@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 let CustomerSchema = new mongoose.Schema ({
     name: String,
     email : String,
-    phone : Number,
+    phone : String,
     address : { type: mongoose.Schema.Types, ref: "Address"}
 });
 

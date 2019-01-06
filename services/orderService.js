@@ -25,6 +25,18 @@ exports.deleteOrder = async function (id) {
     }
 };
 
+exports.get = async function () {
+        var customer=getCustomer()
+        await customer.then(async function (data) {
+            tmpCustomer = data
+        });
+        var list= await OrderRepository.GetAll(tmpCustomer.email);
+        if(list==null){
+            return false;
+        }
+        return list;
+
+}
 exports.getOrder = async function (id) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return false;

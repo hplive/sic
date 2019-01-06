@@ -9,6 +9,16 @@ exports.GetById = function (id) {
     });
 }
 
+exports.GetAll = function (email) {
+    return new Promise((resolve, reject) => {
+        Order.find({
+            "customer.email": email
+        }, function (err, order) {
+            if (err) reject(err);
+            resolve(order);
+        });
+    });
+}
 exports.GetItems = function (id) {
    return new Promise((resolve , reject) =>{
       Order.findOne({_id:id}, function (err, order){

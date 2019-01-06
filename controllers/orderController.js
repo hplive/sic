@@ -1,6 +1,6 @@
 const Service = require('../services/orderService');
 
-
+const NO_ORDERS_FOUND = 'No orders found';
 const ORDER_NOT_FOUND = 'Order not found';
 const ITEM_NOT_FOUND = 'Item not found';
 const PRODUCT_NOT_FOUND = 'Product not found';
@@ -20,6 +20,15 @@ exports.get_order = async (req, res) => {
     }
 };
 
+exports.get=async (req, res) => {
+    var success = await Service.get();
+
+    if (success == false) {
+        res.status(404).send(ORDER_NOT_FOUND);
+    } else {
+        res.send(success);
+    }
+};
 exports.delete_order = async function (req, res) {
     var success = await Service.deleteOrder(req.params.id);
 
