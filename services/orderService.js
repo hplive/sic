@@ -13,7 +13,7 @@ const OrderRepository = require('../repository/orderRepository');
 const OrderDto = require('../Dtos/OrderDto');
 const { State } = require('../models/order');
 
-const uri = 'https://localhost:5001/api/order'; //to complete
+const uri = 'https://nucleocs.azurewebsites.net/api/order';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 exports.deleteOrder = async function (id) {
@@ -195,8 +195,6 @@ productFit = function (parent, child) {
     return true;
 };
 isProductValid = async function (product) {
-
-    // var productUri = uri + product.productId;
 
     var newProduct = await axios.post(uri, product)
         .then(response => {
