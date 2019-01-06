@@ -9,6 +9,47 @@
 			"name": "Order",
 			"item": [
 				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "23ff5c15-40d5-4fe2-9119-e2d00c16385c",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.globals.set(\"loginToken\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"admin@gmail.com\", \n\t\"password\": \"Admin00!\"\n}"
+						},
+						"url": {
+							"raw": "{{urlnet}}Account/Token",
+							"host": [
+								"{{urlnet}}Account"
+							],
+							"path": [
+								"Token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "create order",
 					"event": [
 						{
@@ -38,6 +79,11 @@
 								"key": "Content-Type",
 								"name": "Content-Type",
 								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{loginToken}}",
 								"type": "text"
 							}
 						],
@@ -93,7 +139,13 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{loginToken}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -102,6 +154,12 @@
 							"raw": "{{urlenc}}order",
 							"host": [
 								"{{urlenc}}order"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": ""
+								}
 							]
 						},
 						"description": "get todas as encomendas"
@@ -127,7 +185,13 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{loginToken}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -139,6 +203,12 @@
 							],
 							"path": [
 								"{{orderId}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": ""
+								}
 							]
 						}
 					},
@@ -168,6 +238,11 @@
 								"name": "Content-Type",
 								"type": "text",
 								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{loginToken}}",
+								"type": "text"
 							}
 						],
 						"body": {
