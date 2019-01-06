@@ -35,7 +35,7 @@ exports.delete_order = async function (req, res) {
     if (!success) {
         res.status(404).send(ORDER_NOT_FOUND);
     } else {
-        res.status(204).send();
+        res.status(202).send('Order deleted successfully!');
     }
 };
 
