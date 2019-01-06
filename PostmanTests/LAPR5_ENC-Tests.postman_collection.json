@@ -16,8 +16,7 @@
 							"script": {
 								"id": "23ff5c15-40d5-4fe2-9119-e2d00c16385c",
 								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"pm.globals.set(\"loginToken\", jsonData.token);"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -29,21 +28,32 @@
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
+								"value": "application/x-www-form-urlencoded",
 								"type": "text"
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"email\": \"admin@gmail.com\", \n\t\"password\": \"Admin00!\"\n}"
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "node@js.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Admin00!",
+									"type": "text"
+								}
+							]
 						},
 						"url": {
-							"raw": "{{urlnet}}Account/Token",
+							"raw": "{{urlenc}}auth/login",
 							"host": [
-								"{{urlnet}}Account"
+								"{{urlenc}}auth"
 							],
 							"path": [
-								"Token"
+								"login"
 							]
 						}
 					},
@@ -84,7 +94,8 @@
 							{
 								"key": "Authorization",
 								"value": "Bearer {{loginToken}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -92,12 +103,12 @@
 							"raw": "{\r\n\t\"address\": {\r\n\t\t\"street\": \"1st Street\",\r\n\t\t\"door\": \"1\",\r\n\t\t\"postalCodeCity\": 4100,\r\n\t\t\"postalCodeStreet\": 1\r\n\t},\r\n\t\"state\": null,\r\n\t\"items\": [{\r\n\t\t\t\"productId\": 1,\r\n\t\t\t\"name\": \"VARAOCAMIS.OVAL.AL\",\r\n\t\t\t\"price\": 0.0,\r\n\t\t\t\"category\": \"Ferragens\",\r\n\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\"finishings\": \"Verniz\",\r\n\t\t\t\"width\": 3,\r\n\t\t\t\"height\": 0.03,\r\n\t\t\t\"depth\": 0.02,\r\n\t\t\t\"children\": [{\r\n\t\t\t\t\t\"productId\": 1,\r\n\t\t\t\t\t\"name\": \"VARAOCAMIS.OVAL.AL2\",\r\n\t\t\t\t\t\"price\": 0.0,\r\n\t\t\t\t\t\"category\": \"Ferragens\",\r\n\t\t\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\t\t\"finishings\": \"Verniz\",\r\n\t\t\t\t\t\"width\": 2,\r\n\t\t\t\t\t\"height\": 0.02,\r\n\t\t\t\t\t\"depth\": 0.01,\r\n\t\t\t\t\t\"children\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"productId\": 2,\r\n\t\t\t\t\t\"name\": \"VARAOCAMIS.OVAL.AL2\",\r\n\t\t\t\t\t\"price\": 0.0,\r\n\t\t\t\t\t\"category\": \"Ferragens\",\r\n\t\t\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\t\t\"finishings\": \"Verniz\",\r\n\t\t\t\t\t\"width\": 2,\r\n\t\t\t\t\t\"height\": 0.02,\r\n\t\t\t\t\t\"depth\": 0.01,\r\n\t\t\t\t\t\"children\": []\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"productId\": 2,\r\n\t\t\t\"name\": \"VARAOCAMIS.OVAL.ALXX\",\r\n\t\t\t\"price\": 0.0,\r\n\t\t\t\"category\": \"Ferragens\",\r\n\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\"finishings\": \"Verniz\",\r\n\t\t\t\"width\": 3,\r\n\t\t\t\"height\": 0.03,\r\n\t\t\t\"depth\": 0.02,\r\n\t\t\t\"children\": [{\r\n\t\t\t\t\"productId\": 2,\r\n\t\t\t\t\"name\": \"VARAOCAMIS.OVAL.AL2\",\r\n\t\t\t\t\"price\": 0.0,\r\n\t\t\t\t\"category\": \"Ferragens\",\r\n\t\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\t\"finishings\": \"Verniz\",\r\n\t\t\t\t\"width\": 2,\r\n\t\t\t\t\"height\": 0.02,\r\n\t\t\t\t\"depth\": 0.01,\r\n\t\t\t\t\"children\": []\r\n\t\t\t}]\r\n\t\t}\r\n\t],\r\n\t\"totalprice\": 0.0\r\n}"
 						},
 						"url": {
-							"raw": "{{urlenc}}order/",
+							"raw": "{{urlenc}}order/node@js.com",
 							"host": [
 								"{{urlenc}}order"
 							],
 							"path": [
-								""
+								"node@js.com"
 							],
 							"query": [
 								{
@@ -151,15 +162,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{urlenc}}order",
+							"raw": "{{urlenc}}order/",
 							"host": [
 								"{{urlenc}}order"
 							],
-							"query": [
-								{
-									"key": "",
-									"value": ""
-								}
+							"path": [
+								""
 							]
 						},
 						"description": "get todas as encomendas"
