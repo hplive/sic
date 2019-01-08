@@ -21,10 +21,9 @@ exports.get_order = async (req, res) => {
 };
 
 exports.get=async (req, res) => {
-    var success = await Service.get();
-
+    var success = await Service.get(req.params.user);
     if (success == false) {
-        res.status(404).send(ORDER_NOT_FOUND);
+        res.status(404).send(NO_ORDERS_FOUND);
     } else {
         res.send(success);
     }
@@ -35,7 +34,7 @@ exports.delete_order = async function (req, res) {
     if (!success) {
         res.status(404).send(ORDER_NOT_FOUND);
     } else {
-        res.status(202).send('Order deleted successfully!');
+        res.status(202).send(ORDER_DELETED);
     }
 };
 

@@ -26,12 +26,10 @@ exports.deleteOrder = async function (id) {
     }
 };
 
-exports.get = async function () {
-    var customer = getCustomer()
-    await customer.then(async function (data) {
-        tmpCustomer = data
-    });
-    var list = await OrderRepository.GetAll(tmpCustomer.email);
+exports.get = async function (user) {
+
+    var list = await OrderRepository.GetAll(user);
+    console.log(list)
     if (list == null) {
         return false;
     }
