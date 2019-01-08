@@ -36,12 +36,12 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "email",
+									"key": "Email",
 									"value": "node@js.com",
 									"type": "text"
 								},
 								{
-									"key": "password",
+									"key": "Password",
 									"value": "Admin00!",
 									"type": "text"
 								}
@@ -67,7 +67,7 @@
 							"script": {
 								"id": "39aa2d36-75bb-494c-95ed-010c185f350b",
 								"exec": [
-									"pm.test(\"Successful POST request Category\", function () {",
+									"pm.test(\"Successful POST request Order\", function () {",
 									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
 									"});",
 									"",
@@ -92,15 +92,15 @@
 								"type": "text"
 							},
 							{
-								"key": "Authorization",
-								"value": "Bearer {{loginToken}}",
+								"key": "",
+								"value": "",
 								"type": "text",
 								"disabled": true
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"address\": {\r\n\t\t\"street\": \"1st Street\",\r\n\t\t\"door\": \"1\",\r\n\t\t\"postalCodeCity\": 4100,\r\n\t\t\"postalCodeStreet\": 1\r\n\t},\r\n\t\"state\": null,\r\n\t\"items\": [{\r\n\t\t\t\"productId\": 1,\r\n\t\t\t\"name\": \"VARAOCAMIS.OVAL.AL\",\r\n\t\t\t\"price\": 0.0,\r\n\t\t\t\"category\": \"Ferragens\",\r\n\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\"finishings\": \"Verniz\",\r\n\t\t\t\"width\": 3,\r\n\t\t\t\"height\": 0.03,\r\n\t\t\t\"depth\": 0.02,\r\n\t\t\t\"children\": [{\r\n\t\t\t\t\t\"productId\": 1,\r\n\t\t\t\t\t\"name\": \"VARAOCAMIS.OVAL.AL2\",\r\n\t\t\t\t\t\"price\": 0.0,\r\n\t\t\t\t\t\"category\": \"Ferragens\",\r\n\t\t\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\t\t\"finishings\": \"Verniz\",\r\n\t\t\t\t\t\"width\": 2,\r\n\t\t\t\t\t\"height\": 0.02,\r\n\t\t\t\t\t\"depth\": 0.01,\r\n\t\t\t\t\t\"children\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"productId\": 2,\r\n\t\t\t\t\t\"name\": \"VARAOCAMIS.OVAL.AL2\",\r\n\t\t\t\t\t\"price\": 0.0,\r\n\t\t\t\t\t\"category\": \"Ferragens\",\r\n\t\t\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\t\t\"finishings\": \"Verniz\",\r\n\t\t\t\t\t\"width\": 2,\r\n\t\t\t\t\t\"height\": 0.02,\r\n\t\t\t\t\t\"depth\": 0.01,\r\n\t\t\t\t\t\"children\": []\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"productId\": 2,\r\n\t\t\t\"name\": \"VARAOCAMIS.OVAL.ALXX\",\r\n\t\t\t\"price\": 0.0,\r\n\t\t\t\"category\": \"Ferragens\",\r\n\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\"finishings\": \"Verniz\",\r\n\t\t\t\"width\": 3,\r\n\t\t\t\"height\": 0.03,\r\n\t\t\t\"depth\": 0.02,\r\n\t\t\t\"children\": [{\r\n\t\t\t\t\"productId\": 2,\r\n\t\t\t\t\"name\": \"VARAOCAMIS.OVAL.AL2\",\r\n\t\t\t\t\"price\": 0.0,\r\n\t\t\t\t\"category\": \"Ferragens\",\r\n\t\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\t\"finishings\": \"Verniz\",\r\n\t\t\t\t\"width\": 2,\r\n\t\t\t\t\"height\": 0.02,\r\n\t\t\t\t\"depth\": 0.01,\r\n\t\t\t\t\"children\": []\r\n\t\t\t}]\r\n\t\t}\r\n\t],\r\n\t\"totalprice\": 0.0\r\n}"
+							"raw": "{\r\n\t\"address\": {\r\n\t\t\"street\": \"1st Street\",\r\n\t\t\"door\": \"1\",\r\n\t\t\"postalCodeCity\": 4100,\r\n\t\t\"postalCodeStreet\": 1\r\n\t},\r\n\t\"state\": null,\r\n\t\"items\": [{\r\n\t\t\t\"productId\": 58,\r\n\t\t\t\"name\": \"ARMARIO.A1.PI.VCE\",\r\n\t\t\t\"price\": 0.0,\r\n\t\t\t\"category\": \"Armario\",\r\n\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\"finish\": \"Verniz\",\r\n\t\t\t\"width\": 1.50,\r\n\t\t\t\"height\": 1.5,\r\n\t\t\t\"depth\": 0.43,\r\n\t\t\t\"children\": [{\r\n\t\t\t\t\t\"productId\": 53,\r\n\t\t\t\t\t\"name\": \"PAINELCONTAPLA.AR1.VCE\",\r\n\t\t\t\t\t\"price\": 0.0,\r\n\t\t\t\t\t\"category\": \"Armario\",\r\n\t\t\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\t\t\"finish\": \"Verniz\",\r\n\t\t\t\t\t\"width\": 0.50,\r\n\t\t\t\t\t\"height\": 0.9,\r\n\t\t\t\t\t\"depth\": 0.002,\r\n\t\t\t\t\t\"children\": []\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"totalprice\": 0.0\r\n}"
 						},
 						"url": {
 							"raw": "{{urlenc}}order/node@js.com",
@@ -119,6 +119,160 @@
 							]
 						},
 						"description": "criar encomndas"
+					},
+					"response": []
+				},
+				{
+					"name": "get order by ID #1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ca3c5f1b-7af8-4aef-a16d-9d234954d1d5",
+								"exec": [
+									"pm.test(\"Get order by ID\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.OrderId).to.eql(pm.globals.get(\"orderId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{urlenc}}order/{{orderId}}",
+							"host": [
+								"{{urlenc}}order"
+							],
+							"path": [
+								"{{orderId}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "39aa2d36-75bb-494c-95ed-010c185f350b",
+								"exec": [
+									"pm.test(\"Successful PUT request Order status\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"address\": {\r\n\t\t\"street\": \"1st Street\",\r\n\t\t\"door\": \"1\",\r\n\t\t\"postalCodeCity\": 4100,\r\n\t\t\"postalCodeStreet\": 1\r\n\t},\r\n\t\"state\": null,\r\n\t\"items\": [{\r\n\t\t\t\"productId\": 58,\r\n\t\t\t\"name\": \"ARMARIO.A1.PI.VCE\",\r\n\t\t\t\"price\": 0.0,\r\n\t\t\t\"category\": \"Armario\",\r\n\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\"finish\": \"Verniz\",\r\n\t\t\t\"width\": 1.50,\r\n\t\t\t\"height\": 1.5,\r\n\t\t\t\"depth\": 0.43,\r\n\t\t\t\"children\": [{\r\n\t\t\t\t\t\"productId\": 53,\r\n\t\t\t\t\t\"name\": \"PAINELCONTAPLA.AR1.VCE\",\r\n\t\t\t\t\t\"price\": 0.0,\r\n\t\t\t\t\t\"category\": \"Armario\",\r\n\t\t\t\t\t\"material\": \"MadeiraPinhoVCC\",\r\n\t\t\t\t\t\"finish\": \"Verniz\",\r\n\t\t\t\t\t\"width\": 0.50,\r\n\t\t\t\t\t\"height\": 0.9,\r\n\t\t\t\t\t\"depth\": 0.002,\r\n\t\t\t\t\t\"children\": []\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"totalprice\": 0.0\r\n}"
+						},
+						"url": {
+							"raw": "{{urlenc}}order/{{orderId}}",
+							"host": [
+								"{{urlenc}}order"
+							],
+							"path": [
+								"{{orderId}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "criar encomndas"
+					},
+					"response": []
+				},
+				{
+					"name": "get order by ID #2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ca3c5f1b-7af8-4aef-a16d-9d234954d1d5",
+								"exec": [
+									"pm.test(\"Get order by ID\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.OrderId).to.eql(pm.globals.get(\"orderId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{urlenc}}order/{{orderId}}",
+							"host": [
+								"{{urlenc}}order"
+							],
+							"path": [
+								"{{orderId}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": ""
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -152,9 +306,10 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "Authorization",
-								"value": "Bearer {{loginToken}}",
-								"type": "text"
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -162,63 +317,16 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{urlenc}}order/",
+							"raw": "{{urlenc}}order/all/node@js.com",
 							"host": [
 								"{{urlenc}}order"
 							],
 							"path": [
-								""
+								"all",
+								"node@js.com"
 							]
 						},
 						"description": "get todas as encomendas"
-					},
-					"response": []
-				},
-				{
-					"name": "get order by ID",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "ca3c5f1b-7af8-4aef-a16d-9d234954d1d5",
-								"exec": [
-									"pm.test(\"Get order by ID\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.OrderId).to.eql(pm.globals.get(\"orderId\"));",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{loginToken}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{urlenc}}order/{{orderId}}",
-							"host": [
-								"{{urlenc}}order"
-							],
-							"path": [
-								"{{orderId}}"
-							],
-							"query": [
-								{
-									"key": "",
-									"value": ""
-								}
-							]
-						}
 					},
 					"response": []
 				},
@@ -230,8 +338,8 @@
 							"script": {
 								"id": "68cf5b6b-9b1a-4b24-88c9-ded9fe43295d",
 								"exec": [
-									"pm.test(\"Status code is 200, delete ok\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Status code is 202, delete ok\", function () {",
+									"    pm.response.to.have.status(202);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -248,9 +356,10 @@
 								"value": "application/json"
 							},
 							{
-								"key": "Authorization",
-								"value": "Bearer {{loginToken}}",
-								"type": "text"
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
