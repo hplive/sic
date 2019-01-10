@@ -22,10 +22,10 @@
     "request": "^2.88.0",
     "request-https": "0.0.4",
     "then-request": "^6.0.0",
-  "enum": "^2.5.0",
-"cors": "^2.8.5",
- "json-parser": "^1.1.5",
- "bcryptjs": "^2.4.3"
+    "enum": "^2.5.0",
+    "cors": "^2.8.5",
+    "json-parser": "^1.1.5",
+    "bcryptjs": "^2.4.3"
   },
   "devDependencies": {
     "chai": "^4.2.0",
